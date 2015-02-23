@@ -23,7 +23,7 @@ public class UsuarioDAO extends GenericDAO<Usuario, Long>{
     
     public Usuario findByNomeCpf(String nome, String cpf) throws SQLException{
         QueryBuilder<Usuario, Long> builder = queryBuilder();
-        PreparedQuery<Usuario> preparedQuery = builder.where().like(Usuario.FIlD_NOME, nome).and().like(Usuario.FILD_CPF, cpf).prepare();
+        PreparedQuery<Usuario> preparedQuery = builder.where().like(Usuario.FIlD_NOME, nome).and().like(Usuario.FILD_EMAIL, cpf).prepare();
         return singleResult(preparedQuery);
     }
 }

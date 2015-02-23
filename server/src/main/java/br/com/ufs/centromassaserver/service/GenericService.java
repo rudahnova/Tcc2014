@@ -10,6 +10,7 @@ import br.com.ufs.centromassaserver.controle.UsuarioControle;
 import br.com.ufs.centromassaserver.entidade.Usuario;
 import com.sun.net.httpserver.HttpServer;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
@@ -62,6 +63,7 @@ public abstract class GenericService<E> extends SecurityService {
         if (isValidSession()) {
             if (object != null) {
                 try {
+                    List<String> requestHeader = getHeaders().getRequestHeader("username");
                     return Response.ok(controle.insert(object)).build();
                 } catch (Exception e) {
                     return Response.status(Response.Status.BAD_REQUEST).entity(e).build();

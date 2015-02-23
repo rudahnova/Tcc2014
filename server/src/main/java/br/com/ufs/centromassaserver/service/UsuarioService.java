@@ -12,6 +12,7 @@ import br.com.ufs.centromassaserver.entidade.Usuario;
 import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
@@ -36,6 +37,21 @@ public class UsuarioService extends GenericService<Usuario> {
                 return Response.ok(usuario).build();
             } else {
                 return Response.status(Response.Status.BAD_REQUEST).entity("Informe o id").build();
+            }
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity(MSG_USUARIO_N_LOGADO).build();
+        }
+    }
+    
+    @PUT
+    @Path("login")
+    public Response login(Usuario usuario) throws Exception {
+        if (isValidSession()) {
+            if (usuario != null) {
+                usuario = ((UsuarioControle) getControle()).login(usuario.getNome(), usuario.getEmail());
+                return Response.ok(usuario).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
         } else {
             return Response.status(Response.Status.BAD_REQUEST).entity(MSG_USUARIO_N_LOGADO).build();

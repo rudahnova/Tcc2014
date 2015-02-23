@@ -66,8 +66,19 @@ public class UsuarioControle implements IControle<Usuario>{
         }
     }
   
-    public Usuario login(String nome, String cpf) throws SQLException{
-        return getUsuarioDAO().findByNomeCpf(nome, cpf);
+    public Usuario login(String nome, String email) throws SQLException{
+        Usuario queryForFirst = getUsuarioDAO().queryBuilder().where().like("email", email).queryForFirst();
+        if(queryForFirst != null){
+            return queryForFirst;
+        }else{
+            Usuario u = new Usuario();
+            u.setEmail(email);
+            u.setNome(nome);
+            getUsuarioDAO().create(u);
+            queryForFirst = getUsuarioDAO().queryBuilder().where().like("email", email).queryForFirst();
+            return queryForFirst;
+        }
+        
     }
     
 }

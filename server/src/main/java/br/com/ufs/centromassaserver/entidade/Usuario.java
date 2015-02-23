@@ -19,7 +19,7 @@ public class Usuario implements Serializable{
 
     public static final String FIlD_NOME = "nome";
     public static final String FILD_ID = "id";
-    public static final String FILD_CPF = "cpf";
+    public static final String FILD_EMAIL = "email";
 
     @DatabaseField(columnName = FILD_ID, generatedIdSequence = "common.usuario_id_seq")
     private Long id;
@@ -27,18 +27,18 @@ public class Usuario implements Serializable{
     @DatabaseField(columnName = FIlD_NOME, canBeNull = false)
     private String nome;
 
-    @DatabaseField(columnName = FILD_CPF, canBeNull = false)
-    private String cpf;
+    @DatabaseField(columnName = FILD_EMAIL, canBeNull = false)
+    private String email;
 
     public Usuario() {
         super();
         this.id = 0l;
     }
 
-    public Usuario(Long id, String nome, String cpf) {
+    public Usuario(Long id, String nome, String email) {
         this.id = id;
         this.nome = nome;
-        this.cpf = cpf;
+        this.email = email;
     }
 
     public void setId(Long id) {
@@ -69,15 +69,15 @@ public class Usuario implements Serializable{
     /**
      * @return the cpf
      */
-    public String getCpf() {
-        return cpf;
+    public String getEmail() {
+        return email;
     }
 
     /**
      * @param cpf the cpf to set
      */
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setEmail(String cpf) {
+        this.email = cpf;
     }
     
 
