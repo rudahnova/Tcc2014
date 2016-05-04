@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 @DatabaseTable(tableName = "common.pontuacao", daoClass = PontuacaoDAO.class)
 public class Pontuacao implements Serializable{

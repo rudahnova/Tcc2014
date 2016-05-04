@@ -12,16 +12,16 @@ import java.io.Serializable;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 @DatabaseTable(tableName = "common.usuario", daoClass = UsuarioDAO.class)
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
 
     public static final String FIlD_NOME = "nome";
     public static final String FILD_ID = "id";
     public static final String FILD_EMAIL = "email";
 
-    @DatabaseField(columnName = FILD_ID, generatedIdSequence = "common.usuario_id_seq")
+    @DatabaseField(columnName = FILD_ID, generatedId = true)
     private Long id;
 
     @DatabaseField(columnName = FIlD_NOME, canBeNull = false)
@@ -79,6 +79,5 @@ public class Usuario implements Serializable{
     public void setEmail(String cpf) {
         this.email = cpf;
     }
-    
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class PontuacaoControle implements IControle<Pontuacao> {
 

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class Persistencia {
 
@@ -29,7 +29,7 @@ public class Persistencia {
     }
 
     private ConnectionSource createConnectionSource() throws SQLException {
-        return new JdbcConnectionSource(databaseUrl, "postgres", "jonas");
+        return new JdbcConnectionSource(databaseUrl, "postgres", "postgres");
     }
 
     public static Persistencia instance() {

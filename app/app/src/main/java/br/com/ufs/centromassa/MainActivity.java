@@ -14,7 +14,7 @@ import android.widget.Button;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
-import br.com.ufs.centromassa.dto.Usuario;
+import br.com.ufs.centromassa.entity.Usuario;
 import br.com.ufs.centromassa.util.Util;
 
 public class MainActivity extends ActionBarActivity {
@@ -22,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int LOGOUT = 0;
     private Button btnJogar;
 	private Button btnDesenheVc;
-	private Button btnInfo;
+	private Button btnRank;
     private Usuario usuario;
 
     @Override
@@ -42,7 +42,7 @@ public class MainActivity extends ActionBarActivity {
     private void loadComponents(){
     	btnJogar = (Button) findViewById(R.id.btnJogas);
         btnDesenheVc = (Button) findViewById(R.id.btnDesenheVc);
-        btnInfo = (Button) findViewById(R.id.btnInfo);
+        btnRank = (Button) findViewById(R.id.btnrank);
     }
     
     private void loadActionComponents(){
@@ -105,5 +105,12 @@ public class MainActivity extends ActionBarActivity {
 
         dialog.create().show();
     }
-    
+
+    public void onFasesCliked(View view) {
+        startActivity(new Intent(this, JogarFases.class));
+    }
+
+    public void onRankCliked(View view) {
+        startActivity(new Intent(this, Rank.class));
+    }
 }

@@ -3,7 +3,6 @@ package br.com.ufs.centromassa;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +19,7 @@ import android.widget.NumberPicker;
 import java.text.DecimalFormat;
 import java.util.Vector;
 
-import br.com.ufs.centromassa.dto.Ponto;
+import br.com.ufs.centromassa.entity.Ponto;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MyDrawDesenheVoce extends View implements OnClickListener {
@@ -180,7 +179,7 @@ public class MyDrawDesenheVoce extends View implements OnClickListener {
             pickerRaio.setMaxValue(50);
             pickerRaio.setMinValue(1);
 
-				AlertDialog.Builder builder = new Builder(context);
+				Builder builder = new Builder(context);
 				builder.setTitle(title);
 				builder.setMessage("Informe a massa");
 				builder.setView(pickerRaio);

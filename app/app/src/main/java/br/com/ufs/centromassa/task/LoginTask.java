@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -14,11 +15,11 @@ import org.json.JSONObject;
 
 import br.com.ufs.centromassa.MainActivity;
 import br.com.ufs.centromassa.constants.Constants;
-import br.com.ufs.centromassa.dto.Usuario;
+import br.com.ufs.centromassa.entity.Usuario;
 import br.com.ufs.centromassa.util.Util;
 
 /**
- * Created by Jonas on 12/01/2015.
+ * Created by  on 12/01/2015.
  */
 public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 
@@ -44,7 +45,7 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Object... params) {
 
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpClient httpClient = new DefaultHttpClient();
 
 
         HttpPut post = new HttpPut(Constants.URL_USER+"login");

@@ -1,17 +1,29 @@
-package br.com.ufs.centromassa.dto;
+package br.com.ufs.centromassa.entity;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
 /**
- * Created by Jonas on 12/01/2015.
+ * Created by  on 12/01/2015.
  */
+@DatabaseTable(tableName = "usuario")
 public class Usuario {
 
+    @DatabaseField(generatedId = true)
     private Long id;
+
+    @DatabaseField(canBeNull = false)
     private String email;
-    private  String nome;
+
+    @DatabaseField
+    private String nome;
+
+    public Usuario() {
+    }
 
     public Usuario(Long id, String email, String nome) {
         this.id = id;

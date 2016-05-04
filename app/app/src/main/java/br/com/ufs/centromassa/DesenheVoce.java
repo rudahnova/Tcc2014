@@ -6,10 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import br.com.ufs.centromassa.dto.Ponto;
+import br.com.ufs.centromassa.entity.Ponto;
 
 public class DesenheVoce extends ActionBarActivity {
 
@@ -31,6 +32,7 @@ public class DesenheVoce extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
+			Log.d("DEBUG_DESENHE_VOCE", "notBundle");
 			raios = b.getIntArray("raios");
 			cores = b.getIntArray("cores");
 			centroMassa = (Ponto) b.getSerializable("centroMassa");
@@ -42,6 +44,7 @@ public class DesenheVoce extends ActionBarActivity {
 					click);
 			setContentView(draw);
 		} else {
+			Log.d("DEBUG_DESENHE_VOCE", "Bundle");
 			draw = new MyDrawDesenheVoce(this);
 			setContentView(draw);
 		}
@@ -84,8 +87,8 @@ public class DesenheVoce extends ActionBarActivity {
 			gerarCentroMassa();
 			break;
 		case ATUALIZAR:
-			startActivity(new Intent(this, DesenheVoce.class));
 			finish();
+			startActivity(new Intent(this, DesenheVoce.class));
 			break;
 		default:
 			break;
@@ -102,6 +105,7 @@ public class DesenheVoce extends ActionBarActivity {
 		b.putSerializable("centroMassa", centroMassa);
 		b.putSerializable("click", click);
 		b.putBoolean("isNew", true);
+		b.putBoolean("desenheVoce", true);
 
 		Intent it = new Intent(this, Jogar.class);
 		it.putExtras(b);

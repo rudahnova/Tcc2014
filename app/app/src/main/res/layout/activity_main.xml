@@ -1,34 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}" >
+    android:orientation="vertical"
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnJogas"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="105dp"
-        android:text="Jogar" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/btnDesenheVc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnJogas"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:text="Desenhe você" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
 
-    <Button
-        android:id="@+id/btnInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnJogas"
-        android:layout_below="@+id/btnDesenheVc"
-        android:layout_marginTop="26dp"
-        android:text="Info" />
+            <Button
+                android:onClick="onFasesCliked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jogar"
+                android:id="@+id/button"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
 
-</RelativeLayout>
+            <Button
+                android:id="@+id/btnJogas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Treinar"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/btnDesenheVc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Desenhe você"
+                android:layout_below="@+id/btnJogas"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/btnrank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rank"
+                android:layout_below="@+id/btnDesenheVc"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:onClick="onRankCliked"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

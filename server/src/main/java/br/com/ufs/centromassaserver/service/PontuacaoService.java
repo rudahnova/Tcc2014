@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 @Path("pontuacoes")
 public class PontuacaoService extends GenericService<Pontuacao>{

@@ -1,44 +1,56 @@
 package br.com.ufs.centromassa.task;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
-import br.com.ufs.centromassa.ISaveScore;
+import br.com.ufs.centromassa.ISave;
+import br.com.ufs.centromassa.control.PontuacaoControl;
+import br.com.ufs.centromassa.entity.Pontuacao;
 import br.com.ufs.centromassa.util.Util;
 
 /**
- * Created by Jonas on 14/01/2015.
+ * Created by  on 14/01/2015.
  */
-public class SaveScoreTask extends AsyncTask<Object, Void, Boolean> {
+public class SaveScoreTask extends AsyncTask<Pontuacao, Void, Object> {
 
-    private Context activity;
+    private Context context;
     private ProgressDialog progressDialog;
-    private ISaveScore iSaveScore;
+    private ISave iSave;
 
-    public SaveScoreTask(Activity activity, ISaveScore iSaveScore) {
-        this.activity = activity;
-        this.iSaveScore = iSaveScore;
+    public SaveScoreTask(Context context, ISave iSave) {
+        this.context = context;
+        this.iSave = iSave;
     }
+
 
     @Override
     protected void onPreExecute() {
-        progressDialog = new ProgressDialog(activity);
+        progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Salvando...");
+        progressDialog.setMessage("Salvando Pontuação...");
         progressDialog.show();
     }
 
     @Override
-    protected Boolean doInBackground(Object... params) {
-        return null;
+    protected Object doInBackground(Pontuacao... params) {
+        try {
+            PontuacaoControl pontuacaoControl = new PontuacaoControl(context);
+            Pontuacao insert = pontuacaoControl.insert(params[0]);
+            return insert;
+        } catch (Exception e) {
+            return e;
+        }
     }
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
-            Util.deleteListPontuacao();
-        String msg = aBoolean ? "Salvo com sucesso." : "Erro na operação";
-        iSaveScore.onResult(aBoolean, msg);
+    protected void onPostExecute(Object pontuacao) {
+        progressDialog.dismiss();
+        if(pontuacao != null){
+            iSave.onResultSucess(pontuacao);
+        }else{
+            iSave.onResultFaild(pontuacao);
+        }
     }
 }

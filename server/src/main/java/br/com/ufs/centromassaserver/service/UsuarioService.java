@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 @Path("usuarios")
 public class UsuarioService extends GenericService<Usuario> {

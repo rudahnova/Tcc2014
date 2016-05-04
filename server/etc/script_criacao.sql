@@ -1,4 +1,4 @@
-
+﻿
 CREATE SCHEMA common;
 
 CREATE SCHEMA game;
@@ -7,6 +7,23 @@ CREATE SCHEMA analyst;
 
 
 -- SCHEMA common--
+
+CREATE TABLE common.pontuacao
+(
+   id bigserial NOT NULL, 
+   usuario_id bigint NOT NULL, 
+   pontos numeric(15,6) NOT NULL, 
+   data date NOT NULL DEFAULT now(), 
+   CONSTRAINT pk_pontuacao PRIMARY KEY (id), 
+   CONSTRAINT fk_pontuacao_usuario FOREIGN KEY (usuario_id) REFERENCES common.usuario (id_usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
+) 
+WITH (
+  OIDS = FALSE
+)
+;
+ALTER TABLE common.pontuacao
+  OWNER TO postgres;
+
 
 CREATE TABLE common.tipo_usuario
 (

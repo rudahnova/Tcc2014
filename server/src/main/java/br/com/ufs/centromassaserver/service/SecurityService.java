@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public abstract class SecurityService {
 

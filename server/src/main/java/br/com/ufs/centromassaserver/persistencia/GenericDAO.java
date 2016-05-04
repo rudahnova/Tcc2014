@@ -21,7 +21,7 @@ import sun.java2d.pipe.AATileGenerator;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public abstract class GenericDAO<E,T> extends BaseDaoImpl<E, T> implements Dao<E, T>{
     

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class UsuarioDAO extends GenericDAO<Usuario, Long>{
 

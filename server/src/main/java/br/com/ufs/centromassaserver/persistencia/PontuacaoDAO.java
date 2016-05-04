@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class PontuacaoDAO extends GenericDAO<Pontuacao, Long>{
 

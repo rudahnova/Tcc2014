@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
-import br.com.ufs.centromassa.dto.Pontuacao;
-import br.com.ufs.centromassa.dto.Usuario;
+import br.com.ufs.centromassa.entity.Pontuacao;
+import br.com.ufs.centromassa.entity.Usuario;
 
 /**
- * Created by Jonas on 14/01/2015.
+ * Created by  on 14/01/2015.
  */
 public class Util {
 

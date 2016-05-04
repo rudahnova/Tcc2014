@@ -1,10 +1,6 @@
-package br.com.ufs.centromassa.dto;
+package br.com.ufs.centromassa.entity;
 
 import java.io.Serializable;
-
-import android.content.Intent;
-import br.com.ufs.centromassa.Jogar;
-import br.com.ufs.centromassa.MainActivity;
 
 public class Ponto implements Serializable {
 

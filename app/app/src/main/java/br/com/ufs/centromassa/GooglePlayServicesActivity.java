@@ -1,6 +1,7 @@
 package br.com.ufs.centromassa;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -15,14 +17,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
-import br.com.ufs.centromassa.dto.Usuario;
+import br.com.ufs.centromassa.control.UsuarioControl;
+import br.com.ufs.centromassa.entity.Usuario;
 import br.com.ufs.centromassa.task.LoginTask;
 import br.com.ufs.centromassa.util.Util;
 
 public class GooglePlayServicesActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener{
+        View.OnClickListener {
 
     private static final String TAG = "GooglePlayServicesActivity";
 
@@ -49,6 +52,7 @@ public class GooglePlayServicesActivity extends Activity implements
      */
 
     private SignInButton signInButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,7 @@ public class GooglePlayServicesActivity extends Activity implements
 
         Usuario usuario = Util.getUser(this);
 
-        if(usuario.getId() > 0){
+        if (usuario.getId() > 0) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -121,12 +125,15 @@ public class GooglePlayServicesActivity extends Activity implements
             String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
             String name = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient).getDisplayName();
 
+            Log.i(TAG, accountName);
 
             Usuario usuario = new Usuario(accountName, name);
-            LoginTask loginTask = new LoginTask(this, usuario);
-            loginTask.execute();
-            Log.i(TAG, accountName);
-        }catch (Exception e){
+            UsuarioControl usuarioControl = new UsuarioControl(this);
+            Usuario insert = usuarioControl.insert(usuario);
+            Util.saveUser(this, insert);
+            this.startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
     }
@@ -148,6 +155,7 @@ public class GooglePlayServicesActivity extends Activity implements
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
+        //Toast.makeText(this, result.toString(), Toast.LENGTH_LONG).show();
         if (!result.hasResolution()) {
             // Show a localized error dialog.
             GooglePlayServicesUtil.getErrorDialog(
@@ -176,14 +184,21 @@ public class GooglePlayServicesActivity extends Activity implements
 
     @Override
     public void onClick(View v) {
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Plus.API)
-                    .addScope(Plus.SCOPE_PLUS_LOGIN)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
+        try {
+            if (mGoogleApiClient == null) {
+                mGoogleApiClient = new GoogleApiClient.Builder(this)
+                        .addApi(Plus.API)
+                        .addScope(Plus.SCOPE_PLUS_LOGIN)
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .build();
+            }
+            mGoogleApiClient.connect();
+        } catch (Exception e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(e.getMessage());
+            builder.show();
+            e.printStackTrace();
         }
-        mGoogleApiClient.connect();
     }
 }

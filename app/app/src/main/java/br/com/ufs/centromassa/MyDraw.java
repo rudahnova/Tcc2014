@@ -2,8 +2,8 @@ package br.com.ufs.centromassa;
 
 import java.util.Vector;
 
-import br.com.ufs.centromassa.dto.Ponto;
-import android.annotation.SuppressLint;
+import br.com.ufs.centromassa.entity.Ponto;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +12,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class MyDraw extends View implements OnClickListener {
+public class MyDraw extends View {
 
+	private static final String TAG = "DEBUG_MYDRAW";
 	private Vector<Ponto> pontos;
 	private Vector<Integer> raios;
 	private Vector<Integer> cores;
@@ -28,7 +29,8 @@ public class MyDraw extends View implements OnClickListener {
 	private Ponto click;
 
 	private boolean isNew;
-	private boolean isRadom;
+	private boolean isRandom;
+	private boolean isBackToDesenheVoce;
 
 	public MyDraw(Activity context) {
 		super(context);
@@ -37,8 +39,7 @@ public class MyDraw extends View implements OnClickListener {
 		raios = new Vector<Integer>();
 		cores = new Vector<Integer>();
 		isNew = true;
-		isRadom = true;
-		setOnClickListener(this);
+		isRandom = true;
 	}
 
 	public MyDraw(Activity context, int[] x, int[] y, int[] raios, int[] cores,
@@ -51,8 +52,7 @@ public class MyDraw extends View implements OnClickListener {
 		this.click = click;
 		this.cores = convert(cores);
 		isNew = false;
-		isRadom = false;
-		setOnClickListener(this);
+		isRandom = false;
 	}
 	
 	public MyDraw(Activity context, int[] x, int[] y, int[] raios, int[] cores,
@@ -65,8 +65,7 @@ public class MyDraw extends View implements OnClickListener {
 		this.click = click;
 		this.cores = convert(cores);
 		this.isNew = isNew;
-		isRadom = false;
-		setOnClickListener(this);
+		isRandom = false;
 	}
 	
 
@@ -91,9 +90,11 @@ public class MyDraw extends View implements OnClickListener {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		if (isNew && isRadom) {
+		if (isNew && isRandom) {
+			Log.d(TAG, "isNew and isRandom");
 			drawNew(canvas);
 		} else {
+			Log.d(TAG, "isNotNew and isNotRadom");
 			drawNotNew(canvas);
 		}
 	}
@@ -109,8 +110,8 @@ public class MyDraw extends View implements OnClickListener {
 			paint.setColor(cor);
 			cores.add(cor);
 
-			Integer px = getQtdPontos();
-			Integer py = getQtdPontos();
+			Integer px = getQtdPontosX();
+			Integer py = getQtdPontosY();
 
 			Integer raio = getRaio();
 
@@ -120,6 +121,7 @@ public class MyDraw extends View implements OnClickListener {
 			pontos.add(point);
 			raios.add(raio);
 		}
+		setWillNotDraw(false);
 	}
 
 	private void drawNotNew(Canvas canvas) {
@@ -154,8 +156,12 @@ public class MyDraw extends View implements OnClickListener {
 		return 20 + (int) ((getWidth() / 8) * Math.random());
 	}
 
-	private Integer getQtdPontos() {
-		return 5 + (int) ((getHeight() / 2) * Math.random());
+	private Integer getQtdPontosY() {
+		return 5 + (int) ((getHeight()) * Math.random());
+	}
+
+	private Integer getQtdPontosX() {
+		return 5 + (int) ((getWidth()) * Math.random());
 	}
 
 	private Integer getMassa() {
@@ -194,16 +200,15 @@ public class MyDraw extends View implements OnClickListener {
 	}
 
 	@Override
+	public boolean dispatchTouchEvent(MotionEvent event) {
+		return super.dispatchTouchEvent(event);
+	}
+
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		int action = event.getAction();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
-
-			break;
-		case MotionEvent.ACTION_MOVE:
-
-			break;
-		case MotionEvent.ACTION_UP:
 			if (isNew) {
 				centroMassa = calcularCentroMassa();
 
@@ -214,28 +219,39 @@ public class MyDraw extends View implements OnClickListener {
 				isNew = false;
 
 				Bundle b = new Bundle();
-				b.putIntArray("pontosx", getArrayX());
-				b.putIntArray("pontosy", getArrayY());
+				int[] arrayX = getArrayX();
+				b.putIntArray("pontosx", arrayX);
+				int[] arrayY = getArrayY();
+				b.putIntArray("pontosy", arrayY);
 				b.putIntArray("cores", convert(cores));
 				b.putIntArray("raios", convert(raios));
 				b.putSerializable("centroMassa", centroMassa);
 				b.putSerializable("click", click);
+				b.putBoolean("desenheVoce", isBackToDesenheVoce);
 
-				
+				pontos = new Vector<>();
+
+
 				Intent it = new Intent(context, Jogar.class);
 				it.putExtras(b);
 				context.startActivity(it);
 				context.finish();
+				try {
+					invalidate();
+					this.finalize();
+				} catch (Throwable throwable) {
+					throwable.printStackTrace();
+				}
 			}
 			break;
+		case MotionEvent.ACTION_MOVE:
+
+			break;
+		case MotionEvent.ACTION_UP:
+
+			break;
 		}
-		return super.onTouchEvent(event);
-	}
-
-	@SuppressLint("NewApi")
-	@Override
-	public void onClick(View v) {
-
+		return true;
 	}
 
 	private int[] convert(Vector<Integer> array) {
@@ -266,4 +282,11 @@ public class MyDraw extends View implements OnClickListener {
 		return x;
 	}
 
+	public boolean isBackToDesenheVoce() {
+		return isBackToDesenheVoce;
+	}
+
+	public void setIsBackToDesenheVoce(boolean isBackToDesenheVoce) {
+		this.isBackToDesenheVoce = isBackToDesenheVoce;
+	}
 }

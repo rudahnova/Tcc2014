@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public class UsuarioControle implements IControle<Usuario>{
     

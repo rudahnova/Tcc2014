@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Jonas
+ * @author 
  */
 public interface IControle<E> {
 
