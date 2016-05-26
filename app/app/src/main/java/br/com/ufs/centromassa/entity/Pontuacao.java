@@ -4,6 +4,10 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.util.Date;
 
 /**
@@ -83,5 +87,31 @@ public class Pontuacao {
 
     public void setFase(Integer fase) {
         this.fase = fase;
+    }
+
+    public static String ToJSON(Pontuacao pontuacao) throws JSONException {
+        JSONStringer js = new JSONStringer();
+
+        js.object().key("idUsuario").value(pontuacao.getUsuario().getId()).key("pontos").value(pontuacao.getPontos());
+        if(pontuacao.getId() != null){
+            js.key("id").value(pontuacao.getId());
+        }
+
+        js.endObject();
+
+        return js.toString();
+    }
+
+    public static Pontuacao fromJSON(JSONObject jsonObject) throws JSONException {
+        long id = jsonObject.getLong("id");
+        long idUsuario = jsonObject.getLong("idUsuario");
+        int pontos = jsonObject.getInt("pontos");
+        long dataCadastro = jsonObject.getLong("dataCadastro");
+        int fase = jsonObject.getInt("fase");
+
+
+        Pontuacao pontuacao = new Pontuacao(id,new Usuario(idUsuario),pontos,fase, new Date(dataCadastro));
+
+        return pontuacao;
     }
 }

@@ -2,7 +2,6 @@ package br.com.ufs.centromassa.task;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import org.apache.http.HttpResponse;
@@ -13,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import br.com.ufs.centromassa.MainActivity;
+import br.com.ufs.centromassa.ISave;
 import br.com.ufs.centromassa.constants.Constants;
 import br.com.ufs.centromassa.entity.Usuario;
 import br.com.ufs.centromassa.util.Util;
@@ -24,14 +23,16 @@ import br.com.ufs.centromassa.util.Util;
 public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 
     private Activity context;
+    private ISave iSave;
     private Usuario usuario;
     private ProgressDialog progressDialog;
     private String cookies;
 
 
-    public LoginTask(Activity context, Usuario usuario) {
+    public LoginTask(ISave iSave,Activity context, Usuario usuario) {
         this.context = context;
         this.usuario = usuario;
+        this.iSave = iSave;
     }
 
     @Override
@@ -48,15 +49,15 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
         HttpClient httpClient = new DefaultHttpClient();
 
 
-        HttpPut post = new HttpPut(Constants.URL_USER+"login");
-        post.setHeader("Accept", "application/json;charset=UTF-8");
-        post.setHeader("Content-type", "application/json;charset=UTF-8");
+        HttpPut put = new HttpPut(Constants.URL_USER+"login");
+        put.setHeader("Accept", "application/json;charset=UTF-8");
+        put.setHeader("Content-type", "application/json;charset=UTF-8");
 
 
         HttpResponse response = null;
         try {
-            post.setEntity(new StringEntity(Usuario.ToJSON(usuario)));
-            response = httpClient.execute(post);
+            put.setEntity(new StringEntity(Usuario.ToJSON(usuario)));
+            response = httpClient.execute(put);
             String s = EntityUtils.toString(response.getEntity());
             usuario = Usuario.fromJSON(new JSONObject(s));
             return true;
@@ -69,9 +70,12 @@ public class LoginTask extends AsyncTask<Object, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
-        Util.saveUser(context, usuario);
-        progressDialog.dismiss();
-        context.startActivity(new Intent(context, MainActivity.class));
-        context.finish();
+        if (aBoolean != null && aBoolean) {
+            Util.saveUser(context, usuario);
+            progressDialog.dismiss();
+            iSave.onResultSucess(usuario);
+        }else{
+            iSave.onResultFaild(usuario);
+        }
     }
 }

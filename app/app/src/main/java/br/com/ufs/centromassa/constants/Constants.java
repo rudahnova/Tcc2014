@@ -5,7 +5,8 @@ package br.com.ufs.centromassa.constants;
  */
 public class Constants {
 
-    public static final String SERVER = "http://192.168.1.10:8084/";
+    public static final String SERVER = "http://192.168.25.187:8084/";
 
     public static final String URL_USER = SERVER+"CentroMassa/usuarios/";
+    public static final String URL_PONTUACAO = SERVER+"CentroMassa/pontuacoes/";
 }

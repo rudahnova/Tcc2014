@@ -18,7 +18,7 @@ public class Persistencia {
 
     private ConnectionSource connectionSource;
     private static Persistencia instance;
-    private static final String databaseUrl = "jdbc:postgresql://localhost:5432/CentroMassa";
+    private static final String databaseUrl = "jdbc:mysql://localhost:3306/CentroMassa";
 
     private Persistencia() {
         try {
@@ -29,7 +29,7 @@ public class Persistencia {
     }
 
     private ConnectionSource createConnectionSource() throws SQLException {
-        return new JdbcConnectionSource(databaseUrl, "postgres", "postgres");
+        return new JdbcConnectionSource(databaseUrl, "root", "mysql");
     }
 
     public static Persistencia instance() {

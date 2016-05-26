@@ -63,7 +63,6 @@ public abstract class GenericService<E> extends SecurityService {
         if (isValidSession()) {
             if (object != null) {
                 try {
-                    List<String> requestHeader = getHeaders().getRequestHeader("username");
                     return Response.ok(controle.insert(object)).build();
                 } catch (Exception e) {
                     return Response.status(Response.Status.BAD_REQUEST).entity(e).build();

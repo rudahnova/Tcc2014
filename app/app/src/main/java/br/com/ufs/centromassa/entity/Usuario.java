@@ -25,6 +25,10 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(Long id) {
+        this.id = id;
+    }
+
     public Usuario(Long id, String email, String nome) {
         this.id = id;
         this.email = email;

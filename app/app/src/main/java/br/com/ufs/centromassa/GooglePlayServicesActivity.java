@@ -7,6 +7,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -25,7 +26,8 @@ import br.com.ufs.centromassa.util.Util;
 public class GooglePlayServicesActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener {
+        View.OnClickListener,
+        ISave {
 
     private static final String TAG = "GooglePlayServicesActivity";
 
@@ -128,11 +130,8 @@ public class GooglePlayServicesActivity extends Activity implements
             Log.i(TAG, accountName);
 
             Usuario usuario = new Usuario(accountName, name);
-            UsuarioControl usuarioControl = new UsuarioControl(this);
-            Usuario insert = usuarioControl.insert(usuario);
-            Util.saveUser(this, insert);
-            this.startActivity(new Intent(this, MainActivity.class));
-            finish();
+            LoginTask loginTask = new LoginTask(this, this, usuario);
+            loginTask.execute();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }
@@ -200,5 +199,16 @@ public class GooglePlayServicesActivity extends Activity implements
             builder.show();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onResultSucess(Object object) {
+        this.startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onResultFaild(Object object) {
+        Toast.makeText(this, "Falha ao realizar login", Toast.LENGTH_LONG).show();
     }
 }

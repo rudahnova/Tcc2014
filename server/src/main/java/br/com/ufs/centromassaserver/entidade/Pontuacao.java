@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.ufs.centromassaserver.entidade;
 
 import br.com.ufs.centromassaserver.persistencia.PontuacaoDAO;
@@ -15,36 +14,41 @@ import java.util.Date;
 
 /**
  *
- * @author 
+ * @author
  */
-@DatabaseTable(tableName = "common.pontuacao", daoClass = PontuacaoDAO.class)
-public class Pontuacao implements Serializable{
-    
+@DatabaseTable(tableName = "pontuacao", daoClass = PontuacaoDAO.class)
+public class Pontuacao implements Serializable {
+
     public static final String FILD_ID = "id";
-    public static final  String FILD_USUARIO_ID = "usuario_id";
+    public static final String FILD_USUARIO_ID = "id_usuario";
     public static final String FILD_PONTOS = "pontos";
-    public static final String FILD_DATA = "data";
-    
-    @DatabaseField(columnName = FILD_ID, generatedIdSequence = "common.pontuacao_id_seq")
+    public static final String FILD_DATA = "data_cadastro";
+    public static final String FILD_FASE = "fase";
+
+    @DatabaseField(columnName = FILD_ID, generatedId = true)
     private Long id;
-    
+
     @DatabaseField(columnName = FILD_USUARIO_ID, canBeNull = false)
-    private Long usuarioID;
-    
+    private Long idUsuario;
+
     @DatabaseField(columnName = FILD_PONTOS, canBeNull = false)
-    private Double pontos;
-    
-    @DatabaseField(columnName = FILD_DATA, dataType = DataType.DATE, format = "dd/MM/yyyy")
-    private Date data;
+    private Integer pontos;
+
+    @DatabaseField(canBeNull = false)
+    private Integer fase;
+
+    @DatabaseField(columnName = FILD_DATA, dataType = DataType.DATE, format = "dd/MM/yyyy HH:mm")
+    private Date dataCadastro;
 
     public Pontuacao() {
     }
 
-    public Pontuacao(Long id, Long usuarioID, Double pontos, Date data) {
+    public Pontuacao(Long id, Long usuarioID, Integer pontos, Integer fase, Date data) {
         this.id = id;
-        this.usuarioID = usuarioID;
+        this.idUsuario = usuarioID;
         this.pontos = pontos;
-        this.data = data;
+        this.dataCadastro = data;
+        this.fase = fase;
     }
 
     /**
@@ -62,46 +66,53 @@ public class Pontuacao implements Serializable{
     }
 
     /**
-     * @return the usuarioID
+     * @return the idUsuario
      */
-    public Long getUsuarioID() {
-        return usuarioID;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
     /**
-     * @param usuarioID the usuarioID to set
+     * @param idUsuario the idUsuario to set
      */
-    public void setUsuarioID(Long usuarioID) {
-        this.usuarioID = usuarioID;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     /**
      * @return the pontos
      */
-    public Double getPontos() {
+    public Integer getPontos() {
         return pontos;
     }
 
     /**
      * @param pontos the pontos to set
      */
-    public void setPontos(Double pontos) {
+    public void setPontos(Integer pontos) {
         this.pontos = pontos;
     }
 
     /**
-     * @return the data
+     * @return the dataCadastro
      */
-    public Date getData() {
-        return data;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
     /**
-     * @param data the data to set
+     * @param dataCadastro the dataCadastro to set
      */
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
-    
-    
+
+    public Integer getFase() {
+        return fase;
+    }
+
+    public void setFase(Integer fase) {
+        this.fase = fase;
+    }
+
 }

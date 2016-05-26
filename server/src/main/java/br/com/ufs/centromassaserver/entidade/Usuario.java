@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author 
  */
-@DatabaseTable(tableName = "common.usuario", daoClass = UsuarioDAO.class)
+@DatabaseTable(tableName = "usuario", daoClass = UsuarioDAO.class)
 public class Usuario implements Serializable {
 
     public static final String FIlD_NOME = "nome";
